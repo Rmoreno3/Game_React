@@ -62,59 +62,64 @@ function App() {
   }
   
   return (
-    <main className="board">
-      <h1>Tic Tac Toe</h1>
-      <button onClick={resetGame}>Reset Game</button>
-      <section className="game">
+    <>
+      <main className="board">
+        <h1>Tic Tac Toe</h1>
+        <button onClick={resetGame}>Reset Game</button>
+        <section className="game">
+          {
+            board.map((square, index) => {
+              return (
+                <Square 
+                  key={index}
+                  index={index}
+                  updateBoard={updateBoard}
+                >
+                  {square}
+                </Square>
+              )
+            }) 
+          }
+        </section>
+
+        <section className="turn">
+          <Square isSelected={turn === TURNS.x}>
+            {TURNS.x}
+          </Square>
+          <Square isSelected={turn === TURNS.o}>
+            {TURNS.o}
+          </Square>
+        </section>
+
         {
-          board.map((square, index) => {
-            return (
-              <Square 
-                key={index}
-                index={index}
-                updateBoard={updateBoard}
-              >
-                {square}
-              </Square>
-            )
-          }) 
+          winner !== null && (
+            <section className="winner">
+              <div className="text">
+                <h2>
+                  {
+                    winner === false
+                    ? 'Empate'
+                    : 'Gano:'
+                  }
+                </h2>
+
+                <header className="win">
+                  {winner && <Square>{winner}</Square> }
+                </header>
+
+                <footer>
+                  <button onClick={resetGame}>Empezar de nuevo</button>
+                </footer>
+
+              </div>
+            </section>
+          )
         }
-      </section>
-
-      <section className="turn">
-        <Square isSelected={turn === TURNS.x}>
-          {TURNS.x}
-        </Square>
-        <Square isSelected={turn === TURNS.o}>
-          {TURNS.o}
-        </Square>
-      </section>
-
-      {
-        winner !== null && (
-          <section className="winner">
-            <div className="text">
-              <h2>
-                {
-                  winner === false
-                  ? 'Empate'
-                  : 'Gano:'
-                }
-              </h2>
-
-              <header className="win">
-                {winner && <Square>{winner}</Square> }
-              </header>
-
-              <footer>
-                <button onClick={resetGame}>Empezar de nuevo</button>
-              </footer>
-
-            </div>
-          </section>
-        )
-      }
-    </main>
+      </main>
+      <footer className="footer">
+        Creado Por Reynaldo Moreno
+      </footer>
+    </>
   )
 }
 

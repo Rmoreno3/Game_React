@@ -129,3 +129,9 @@ body {
   cursor: pointer;
   font-size: 48px;
 }
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
