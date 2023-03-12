@@ -1,37 +1,9 @@
 import { useState } from "react"
+import { Square } from "./Components/Square"
+import { TURNS, WINNER_COMBOS } from "./constants"
+import confetti from "canvas-confetti"
 import "./index.css"
 
-// TURNOS DE JUGADORES
-const TURNS = {
-  x: 'x',
-  o: 'o'
-}
-
-
-const Square = ({children, isSelected, updateBoard, index}) => {
-  const className = `square ${isSelected ? 'is-selected' : ''}`
-
-  const handleClick = () => {
-    updateBoard(index)
-  }
-
-  return (
-    <div onClick={handleClick} className={className}>
-      {children}
-    </div>
-  )
-}
-
-const WINNER_COMBOS = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-]
 
 
 
@@ -82,8 +54,9 @@ function App() {
     // verifica si hay ganador
     const newWinner = checkWinner(newBoard)
     if (newWinner) {
+      confetti()
       setWinner(newWinner)
-    } else if (checkEndGame(newBoard)) {
+    } else if (checkEndGame(newBoard)) { // cuando ocurre el empate
       setWinner(false)
     }
   }
@@ -94,14 +67,14 @@ function App() {
       <button onClick={resetGame}>Reset Game</button>
       <section className="game">
         {
-          board.map((_, index) => {
+          board.map((square, index) => {
             return (
               <Square 
                 key={index}
                 index={index}
                 updateBoard={updateBoard}
               >
-                {board[index]}
+                {square}
               </Square>
             )
           }) 
